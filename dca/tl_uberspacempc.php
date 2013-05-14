@@ -117,7 +117,7 @@ $GLOBALS['TL_DCA']['tl_uberspacempc'] = array
 			'sorting'				=> true,
 			'inputType'				=> 'select',
 			'options_callback'		=> array('tl_uberspacempc', 'getUsernames'),
-			'eval'					=> array('chosen'=>true, 'unique'=>true, 'tl_class'=>'w50'),
+			'eval'					=> array('chosen'=>true, 'unique'=>true, 'mandatory'=>true, 'tl_class'=>'w50'),
 			'sql'					=> "varchar(255) NOT NULL default ''"
 		),
 		'authorizedFrontendUsers' => array
