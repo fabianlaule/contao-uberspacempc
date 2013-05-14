@@ -115,8 +115,9 @@ $GLOBALS['TL_DCA']['tl_uberspacempc'] = array
 			'exclude'				=> true,
 			'search'				=> true,
 			'sorting'				=> true,
-			'inputType'				=> 'text',
-			'eval'					=> array('mandatory'=>true, 'unique'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
+			'inputType'				=> 'select',
+			'options_callback'		=> array('tl_uberspacempc', 'getUsernames'),
+			'eval'					=> array('chosen'=>true, 'unique'=>true, 'tl_class'=>'w50'),
 			'sql'					=> "varchar(255) NOT NULL default ''"
 		),
 		'authorizedFrontendUsers' => array
@@ -141,6 +142,36 @@ $GLOBALS['TL_DCA']['tl_uberspacempc'] = array
  */
 class tl_uberspacempc extends \Backend
 {
+	/**
+	 * Get all usernames of the available mailboxes
+	 * @param object
+	 * @return array
+	 */
+	public function getUsernames()
+	{
+		$arrUsernames = array();
+
+		// Back end
+		if (TL_MODE == 'BE')
+		{
+			// get the available usernames
+			$usernames = shell_exec('listvdomain');
+			$usernames = preg_split('/[\r\n]+/', $usernames, NULL, PREG_SPLIT_NO_EMPTY);
+			// we don't need the first line (the output is like a table and there are the headings in the first part of the array)
+			unset($usernames[0]);
+
+			foreach ($usernames as $key => $value)
+			{
+				$value = explode(" ", $value);
+				$arrUsernames[$value[0]] = $value[0];
+			}
+
+			return $arrUsernames;
+		}
+
+		return array();
+	}
+
 	/**
 	 * Get all FrontendUsers and return them as array
 	 * @param object

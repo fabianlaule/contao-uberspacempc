@@ -24,7 +24,7 @@ $GLOBALS['TL_LANG']['tl_uberspacempc']['delete'] 					= array('Löschen', 'Daten
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_uberspacempc']['email'] 					= array('Zugehörige E-Mail-Adresse', 'E-Mail-Adresse des E-Mail-Postfachs angeben.');
-$GLOBALS['TL_LANG']['tl_uberspacempc']['username'] 					= array('Username / Alias des E-Mail-Postfachs', 'SSH: listvdomain -> 1. Teil ist der Username/Alias.');
+$GLOBALS['TL_LANG']['tl_uberspacempc']['username'] 					= array('Username des E-Mail-Postfachs', 'Bitte wählen Sie das entsprechende Postfach aus.');
 $GLOBALS['TL_LANG']['tl_uberspacempc']['authorizedFrontendUsers'] 	= array('Berechtigte Mitglieder', 'Mitglieder auswählen, die im Frontend das Passwort für das oben genannte E-Mail-Postfach ändern dürfen.');
 
 /**

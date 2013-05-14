@@ -24,7 +24,7 @@ $GLOBALS['TL_LANG']['tl_uberspacempc']['delete'] 					= array('Delete', 'Delete 
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_uberspacempc']['email'] 					= array('Associated e-mail address', 'Please enter the e-mail address of the associated mailbox.');
-$GLOBALS['TL_LANG']['tl_uberspacempc']['username'] 					= array('Username / alias of the mailbox', 'SSH: listvdomain -> first part is the required username / alias.');
+$GLOBALS['TL_LANG']['tl_uberspacempc']['username'] 					= array('Username of the mailbox', 'Please select the appropriate mailbox.');
 $GLOBALS['TL_LANG']['tl_uberspacempc']['authorizedFrontendUsers'] 	= array('Authorized members', 'Please choose at least one authorized member.');
 
 /**
