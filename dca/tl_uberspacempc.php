@@ -36,48 +36,48 @@ $GLOBALS['TL_DCA']['tl_uberspacempc'] = array
 	(
 		'sorting' => array
 		(
-			'mode'					=> 2,
-			'fields'				=> array('email'),
-			'flag' 					=> 1,
-			'panelLayout'			=> 'search,sort;limit',
-			'disableGrouping'		=> true,
+			'mode'                    => 2,
+			'fields'                  => array('email'),
+			'flag'                    => 1,
+			'panelLayout'             => 'search,sort;limit',
+			'disableGrouping'         => true,
 		),
 		'label' => array
 		(
-			'fields'				=> array('email'),
-			'format'				=> '%s',
-			'label_callback'		=> array('tl_uberspacempc', 'addInfo')
+			'fields'                  => array('email'),
+			'format'                  => '%s',
+			'label_callback'          => array('tl_uberspacempc', 'addInfo')
 		),
 		'global_operations' => array
 		(
 			'all' => array
 			(
-				'label'				=> &$GLOBALS['TL_LANG']['MSC']['all'],
-				'href'				=> 'act=select',
-				'class'				=> 'header_edit_all',
-				'attributes'		=> 'onclick="Backend.getScrollOffset();" accesskey="e"'
+				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
+				'href'                => 'act=select',
+				'class'               => 'header_edit_all',
+				'attributes'          => 'onclick="Backend.getScrollOffset();" accesskey="e"'
 			)
 		),
 		'operations' => array
 		(
 			'edit' => array
 			(
-				'label'				=> &$GLOBALS['TL_LANG']['tl_uberspacempc']['edit'],
-				'href'				=> 'act=edit',
-				'icon'				=> 'edit.gif'
+				'label'               => &$GLOBALS['TL_LANG']['tl_uberspacempc']['edit'],
+				'href'                => 'act=edit',
+				'icon'                => 'edit.gif'
 			),
 			'delete' => array
 			(
-				'label'				=> &$GLOBALS['TL_LANG']['tl_uberspacempc']['delete'],
-				'href'				=> 'act=delete',
-				'icon'				=> 'delete.gif',
-				'attributes'		=> 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
+				'label'               => &$GLOBALS['TL_LANG']['tl_uberspacempc']['delete'],
+				'href'                => 'act=delete',
+				'icon'                => 'delete.gif',
+				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
 			),
 			'show' => array
 			(
-				'label'				=> &$GLOBALS['TL_LANG']['tl_uberspacempc']['show'],
-				'href'				=> 'act=show',
-				'icon'				=> 'show.gif'
+				'label'               => &$GLOBALS['TL_LANG']['tl_uberspacempc']['show'],
+				'href'                => 'act=show',
+				'icon'                => 'show.gif'
 			)
 		)
 	),
@@ -85,7 +85,7 @@ $GLOBALS['TL_DCA']['tl_uberspacempc'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'					=> '{mailboxDetails_legend},username,email;{authorizedFrontendUsers_legend},authorizedFrontendUsers'
+		'default'                     => '{mailboxDetails_legend},username,email;{authorizedFrontendUsers_legend},authorizedFrontendUsers'
 	),
 
 	// Fields
@@ -93,41 +93,41 @@ $GLOBALS['TL_DCA']['tl_uberspacempc'] = array
 	(
 		'id' => array
 		(
-			'sql'					=> "int(10) unsigned NOT NULL auto_increment"
+			'sql'                     => "int(10) unsigned NOT NULL auto_increment"
 		),
 		'tstamp' => array
 		(
-			'sql'					=> "int(10) unsigned NOT NULL default '0'"
+			'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		),
 		'email' => array
 		(
-			'label'					=> &$GLOBALS['TL_LANG']['tl_uberspacempc']['email'],
-			'exclude'				=> true,
-			'search'				=> true,
-			'sorting'				=> true,	
-			'inputType'				=> 'text',
-			'eval'					=> array('mandatory'=>true, 'unique'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
-			'sql'					=> "varchar(255) NOT NULL default ''"
+			'label'                   => &$GLOBALS['TL_LANG']['tl_uberspacempc']['email'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'sorting'                 => true,	
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>true, 'unique'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'username' => array
 		(
-			'label'					=> &$GLOBALS['TL_LANG']['tl_uberspacempc']['username'],
-			'exclude'				=> true,
-			'search'				=> true,
-			'sorting'				=> true,
-			'inputType'				=> 'select',
-			'options_callback'		=> array('tl_uberspacempc', 'getUsernames'),
-			'eval'					=> array('chosen'=>true, 'unique'=>true, 'mandatory'=>true, 'tl_class'=>'w50'),
-			'sql'					=> "varchar(255) NOT NULL default ''"
+			'label'                   => &$GLOBALS['TL_LANG']['tl_uberspacempc']['username'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'sorting'                 => true,
+			'inputType'               => 'select',
+			'options_callback'        => array('tl_uberspacempc', 'getUsernames'),
+			'eval'                    => array('chosen'=>true, 'unique'=>true, 'mandatory'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'authorizedFrontendUsers' => array
 		(
-			'label'					=> &$GLOBALS['TL_LANG']['tl_uberspacempc']['authorizedFrontendUsers'],
-			'exclude'				=> false,
-			'inputType'				=> 'select',
-			'options_callback'		=> array('tl_uberspacempc', 'getFrontendUsers'), 
-			'eval'					=> array('includeBlankOption'=>true, 'mandatory'=>true, 'multiple' =>true, 'chosen'=>true),
-			'sql'					=> "varchar(255) NOT NULL default ''"
+			'label'                   => &$GLOBALS['TL_LANG']['tl_uberspacempc']['authorizedFrontendUsers'],
+			'exclude'                 => false,
+			'inputType'               => 'select',
+			'options_callback'        => array('tl_uberspacempc', 'getFrontendUsers'), 
+			'eval'                    => array('includeBlankOption'=>true, 'mandatory'=>true, 'multiple' =>true, 'chosen'=>true),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		)
 	)
 );
@@ -157,9 +157,9 @@ class tl_uberspacempc extends \Backend
 			// get the available usernames
 			$usernames = shell_exec('listvdomain');
 			$usernames = preg_split('/[\r\n]+/', $usernames, NULL, PREG_SPLIT_NO_EMPTY);
+			
 			// we don't need the first line (the output is like a table and there are the headings in the first part of the array)
 			unset($usernames[0]);
-
 			foreach ($usernames as $key => $value)
 			{
 				$value = explode(" ", $value);
@@ -211,9 +211,9 @@ class tl_uberspacempc extends \Backend
 	public function addInfo($row, $label)
 	{
 		return sprintf(
-					'%s <span style="color:#b3b3b3;font-style:italic;padding-left:5px">%s</span>',
-					$label, 
-					$GLOBALS['TL_LANG']['tl_uberspacempc']['username'][0] . ': ' . $row['username']
-					);
+		               '%s <span style="color:#b3b3b3;font-style:italic;padding-left:5px">%s</span>',
+		               $label, 
+		               $GLOBALS['TL_LANG']['tl_uberspacempc']['username'][0] . ': ' . $row['username']
+		               );
 	}
 }
