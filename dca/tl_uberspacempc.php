@@ -160,12 +160,13 @@ class tl_uberspacempc extends \Backend
 			
 			// we don't need the first line (the output is like a table and there are the headings in the first part of the array)
 			unset($usernames[0]);
+
 			foreach ($usernames as $key => $value)
 			{
 				$value = explode(" ", $value);
 				$arrUsernames[$value[0]] = $value[0];
 			}
-
+			
 			return $arrUsernames;
 		}
 

@@ -3,42 +3,11 @@
 		<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
 	<?php endif; ?>
 
-	<?php if ($this->success): ?>
-		<p class="success"><?php echo $this->success; ?></p>
-	<?php endif; ?>
-
-	<?php if ($this->error): ?>
-		<p class="error"><?php echo $this->error; ?></p>
-	<?php endif; ?>
-
-	<form action="<?php echo $this->action; ?>" id="tl_UberspaceMPC" method="post">
+	<form action="<?php echo $this->action; ?>" id="<?php echo $this->formID; ?>" method="post">
 		<div class="formbody">
-			<input type="hidden" name="FORM_SUBMIT" value="tl_UberspaceMPC">
+			<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formID; ?>">
 			<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
-			
-			<div class="explanation">
-				<?php echo $this->explanation; ?>
-			</div>
-
-			<fieldset class="radio_container">
-				<legend><?php echo $this->radioLegend; ?></legend>
-
-				<?php while ($this->arrMailboxes->next()): ?>
-					<span>
-						<input type="radio" id="UberspaceMPC_<?php echo $this->arrMailboxes->id; ?>" name="UberspaceMPC_radio" class="radio" value="<?php echo $this->arrMailboxes->id; ?>">
-						<label for="UberspaceMPC_<?php echo $this->arrMailboxes->id; ?>"><?php echo $this->arrMailboxes->email; ?></label>
-					</span>
-				<?php endwhile; ?>
-			</fieldset>
-
-			<label for="UberspaceMPC_password"><?php echo $this->passwordLabel; ?></label>
-			<input type="password" name="UberspaceMPC_password" id="UberspaceMPC_password" class="text password" maxlength="64" value="">
-			<br>
-		
-			<label for="UberspaceMPC_password_confirm"><?php echo $this->password_confirmLabel; ?></label>
-			<input type="password" name="UberspaceMPC_password_confirm" id="UberspaceMPC_password_confirm" class="text password" maxlength="64" value="">
-			<br>
-			
+			<?php echo $this->fields; ?>
 			<div class="submit_container">
 				<input type="submit" class="submit" value="<?php echo $this->slabel; ?>">
 			</div>
