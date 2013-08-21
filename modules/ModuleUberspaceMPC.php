@@ -28,14 +28,7 @@ class ModuleUberspaceMPC extends \Module
 {
 
 	/**
-	 * Errors
-	 * @var array
-	 */
-	protected $arrErrors = array();
-	
-
-	/**
-	 * Display a login form
+	 * Display the module
 	 * @return string
 	 */
 	public function generate()
@@ -62,111 +55,114 @@ class ModuleUberspaceMPC extends \Module
 	protected function compile()
 	{
 		// Check if the User is logged in
-		if(FE_USER_LOGGED_IN)
+		if (!FE_USER_LOGGED_IN)
 		{
-			$this->import(FrontendUser, User);
-			
-			// Looking for all allowed mail accounts
-			$objMailaccounts = \UberspacempcModel::findAuthorizedMailboxAccounts($this->User->id);
-		
-			// Is there a object with mailbox accounts? if not, return
-			if(!is_object($objMailaccounts))
+			return;
+		}
+
+		// Import the User and look for all allowed mail accounts
+		$this->import(FrontendUser, User);
+		$objMailaccounts = \UberspacempcModel::findAuthorizedMailboxAccounts($this->User->id);
+
+		if (!is_object($objMailaccounts))
+		{
+			return;
+		}
+
+		$arrMailboxOptions = array();
+		while ($objMailaccounts->next()) 
+		{
+			$arrMailboxOptions[$objMailaccounts->id] = $objMailaccounts->email;
+		}
+
+		// Create the Template for the module
+		$this->strTemplate = 'mod_uberspacempc';
+		$this->Template = new \FrontendTemplate($this->strTemplate);
+
+		// Declare the fields for the FE-Module
+		$arrFields = array
+		(
+			'mailbox' => array
+			(
+				'name'                    => 'mailbox',
+				'label'                   => &$GLOBALS['TL_LANG']['UberspaceMPC']['mailboxOptionLegend'],
+				'options'                 => $arrMailboxOptions,
+				'inputType'               => 'select',
+				'eval'                    => array('mandatory'=>true)
+			),
+			'password' => array
+			(
+				'name'                    => 'password',
+				'label'                   => &$GLOBALS['TL_LANG']['MSC']['password'],
+				'inputType'               => 'password',
+				'eval'                    => array('mandatory'=>true, 'preserveTags'=>true, 'minlength'=>$GLOBALS['TL_CONFIG']['minPasswordLength']),
+			)
+		);
+
+
+		$strFields = '';
+		$doNotSubmit = false;
+		$strFormId = 'tl_UberspaceMPC_' . $this->id;
+
+		// Initialize the widgets
+		foreach ($arrFields as $arrField)
+		{
+			$strClass = $GLOBALS['TL_FFL'][$arrField['inputType']];
+
+			// Continue if the class is not defined
+			if (!class_exists($strClass))
 			{
-				return;
+				continue;
 			}
 
-			// Create a (new) Template for the module
-			$this->Template = new \FrontendTemplate('mod_uberspacempc');
-	
-			if(\Input::post('FORM_SUBMIT') == 'tl_UberspaceMPC')
+			$arrField['eval']['tableless'] = true;
+			$arrField['eval']['required'] = $arrField['eval']['mandatory'];
+
+			$objWidget = new $strClass($strClass::getAttributesFromDca($arrField, $arrField['name']));
+			$objWidget->storeValues = true;
+
+			// Validate the widget
+			if (\Input::post('FORM_SUBMIT') == $strFormId)
 			{
-				$objMailaccount = \UberspacempcModel::findEntry(\Input::post('UberspaceMPC_radio'), $this->User->id);
+				$objWidget->validate();
 
-				// Check if the submitted MailboxID is a valid and authorized ID
-				if(!$objMailaccount)
+				if ($objWidget->hasErrors())
 				{
-					$this->addError($GLOBALS['TL_LANG']['UberspaceMPC']['noValidMailbox']);
-				}
-
-				// Validate the password
-				$this->validatePassword(\Input::postRaw('UberspaceMPC_password'), \Input::postRaw('UberspaceMPC_password_confirm'));
-			
-				// If everything is ok, set the new password
-				if($this->getAllErrors() == '')
-				{
-					$result = $this->setNewPassword($objMailaccount->username, $_POST[UberspaceMPC_password]);
-					
-					if($result)
-					{
-						$this->Template->success = $GLOBALS['TL_LANG']['UberspaceMPC']['success'];
-					}
-					else
-					{
-						$this->addError($GLOBALS['TL_LANG']['UberspaceMPC']['setPasswordError']);
-						$this->log('Setting a new password for ' . $objMailaccount->email . ' failed.', 'ModuleUberspaceMPC setNewMailboxPassword()', TL_ERROR);
-					}
+					$doNotSubmit = true;
 				}
 			}
 
-			// Assign variables
-			$this->Template->arrMailboxes = $objMailaccounts;
-			$this->Template->error = $this->getAllErrors();
-			$this->Template->action = $this->getIndexFreeRequest();
-			$this->Template->radioLegend = $GLOBALS['TL_LANG']['UberspaceMPC']['radioLegend'];
-			$this->Template->explanation = $GLOBALS['TL_LANG']['UberspaceMPC']['explanation'];
-			$this->Template->passwordLabel = $GLOBALS['TL_LANG']['UberspaceMPC']['passwordLabel'];
-			$this->Template->password_confirmLabel = $GLOBALS['TL_LANG']['UberspaceMPC']['password_confirmLabel'];
-			$this->Template->slabel = $GLOBALS['TL_LANG']['UberspaceMPC']['slabel'];
+			$strFields .= $objWidget->parse();
+		}
+
+		$this->Template->fields = $strFields;
+		$this->Template->formID = $strFormId;
+		$this->Template->action = \Environment::get('indexFreeRequest');
+		$this->Template->slabel = $GLOBALS['TL_LANG']['UberspaceMPC']['slabel'];
+
+
+		if (\Input::post('FORM_SUBMIT') == $strFormId && !$doNotSubmit)
+		{
+			$objAccount = \UberspacempcModel::findEntry(\Input::post('mailbox'), $this->User->id);
+
+			$this->strTemplate = 'mod_message';
+			$this->Template = new \FrontendTemplate($this->strTemplate);
+
+			if (is_object($objAccount))
+			{
+				if($this->setNewPassword($objMailaccount->username, $_POST[password]))
+				{
+					$this->Template->type = 'success';
+					$this->Template->message = $GLOBALS['TL_LANG']['UberspaceMPC']['success'];
+					return;
+				}
+			}
+			$this->Template->type = 'error';
+			$this->Template->message = $GLOBALS['TL_LANG']['UberspaceMPC']['error'];
 		}
 	}
 
-	/**
-	 * Add an error message
-	 * 
-	 * @param string $strError The error message
-	 */
-	protected function addError($strError)
-	{
-		$this->class = 'error';
-		$this->arrErrors[] = $strError;
-	}
-	
-	/**
-	 * Return all error messages as an array
-	 */
-	protected function getAllErrors()
-	{
-		$strErrors = '';
-		foreach ($this->arrErrors as $Error) {
-			$strErrors .= $Error . '<br />';
-		}
-		return $strErrors;
-	}
-	
-	/**
-	 * Validates the submitted password
-	 * 
-	 * @param string $varPassword The password
-	 * @param string $varPasswordConfirm The confirmation password
-	 */
-	protected function validatePassword($varPassword, $varPasswordConfirm)
-	{
-		$blnisValid = true;	
-		
-		if (utf8_strlen($varPassword) < $GLOBALS['TL_CONFIG']['minPasswordLength'])
-		{
-			$this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['passwordLength'], $GLOBALS['TL_CONFIG']['minPasswordLength']));
-			$blnisValid = false;
-		}
 
-		if ($varPassword !== $varPasswordConfirm)
-		{
-			$this->addError($GLOBALS['TL_LANG']['ERR']['passwordMatch']);
-			$blnisValid = false;
-		}
-		
-		return $blnisValid;
-	}
 	
 	/**
 	 * set the new Password via Shell
