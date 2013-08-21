@@ -150,7 +150,7 @@ class ModuleUberspaceMPC extends \Module
 
 			if (is_object($objAccount))
 			{
-				if($this->setNewPassword($objMailaccount->username, $_POST[password]))
+				if($this->setNewPassword($objAccount->username, $_POST[password]))
 				{
 					$this->Template->type = 'success';
 					$this->Template->message = $GLOBALS['TL_LANG']['UberspaceMPC']['success'];
