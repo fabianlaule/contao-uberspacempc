@@ -1,7 +1,7 @@
 UberspaceMPC
 ============
 
-This extension for Contao Open Source CMS enables users to change their mailbox password in the frontend of the website.
+This extension for Contao Open Source CMS enables users to change their mailbox password in the frontend of the website. This extensionen was developed for the great hoster called Uberspace <uberspace.de>.
 
 
 ###How does the extension works?
@@ -10,5 +10,3 @@ In the backend, you can easily assign an existing mailbox account to one or more
 
 
 ###This extension is in development!
-
-I'm currently working on this extension, so please do not use this developer version for productional websites. 
