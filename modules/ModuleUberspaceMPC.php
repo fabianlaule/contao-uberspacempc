@@ -167,8 +167,9 @@ class ModuleUberspaceMPC extends \Module
 	/**
 	 * set the new Password via Shell
 	 * 
-	 * @param string $strMailbox The password
-	 * @param string $strPassword The confirmation password
+	 * @param string
+	 * @param string
+	 * @return bool
 	 */
 	function setNewPassword($strMailbox, $strPassword)
 	{
