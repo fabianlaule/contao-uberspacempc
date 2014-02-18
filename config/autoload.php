@@ -26,10 +26,10 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Models
-	'UberspaceMPC\UberspacempcModel'  => 'system/modules/UberspaceMPC/models/UberspacempcModel.php',
+	'UberspaceMPC\UberspacempcModel'  => 'system/modules/uberspacempc/models/UberspacempcModel.php',
 
 	// Modules
-	'UberspaceMPC\ModuleUberspaceMPC' => 'system/modules/UberspaceMPC/modules/ModuleUberspaceMPC.php',
+	'UberspaceMPC\ModuleUberspaceMPC' => 'system/modules/uberspacempc/modules/ModuleUberspaceMPC.php',
 ));
 
 
@@ -38,5 +38,5 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'mod_uberspacempc' => 'system/modules/UberspaceMPC/templates',
+	'mod_uberspacempc' => 'system/modules/uberspacempc/templates',
 ));
