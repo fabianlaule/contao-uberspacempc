@@ -18,7 +18,7 @@
 $GLOBALS['BE_MOD']['content']['UberspaceMPC'] = array
 (
     'tables'       => array('tl_uberspacempc'),
-    'icon'         => 'system/modules/UberspaceMPC/assets/UberspaceMPC.png',
+    'icon'         => 'system/modules/uberspacempc/assets/UberspaceMPC.png',
 );
 
 /**
