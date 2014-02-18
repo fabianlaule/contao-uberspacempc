@@ -1,0 +1,35 @@
+{
+	"name":"fabil/UberspaceMPC",
+	"description":"Easily change the passwords of the mailboxes from the hoster Uberspace.de in the frontend",
+	"keywords":["contao","uberspace","password","email","mailbox"],
+	"type":"contao-module",
+	"homepage":"http://fabianlaule.de",
+	"license":"LGPL-3.0+",
+	"authors":[
+		{
+			"name":"Fabian Laule",
+			"homepage":"http://fabianlaule.de",
+			"role":"Developer"
+		}
+	],
+	"support":{
+		"issues":"https://github.com/fabil/UberspaceMPC/issues",
+		"source":"https://github.com/fabil/UberspaceMPC",
+		"forum":"https://community.contao.org/de/showthread.php?41086-UberspaceMPC-Passwort%E4nderungsmodul-f%FCr-E-Mail-Postf%E4cher-bei-Uberspace-de"
+	},
+	"require":{
+		"php":">=5.3",
+		"contao/core":">=3.0,<4",
+		"contao-community-alliance/composer-installer":"*"
+	},
+	"autoload":{
+		"classmap":[""]
+	},
+	"extra":{
+		"contao":{
+			"sources":{
+				"":"system/modules/UberspaceMPC"
+			}
+		}
+	}
+}
