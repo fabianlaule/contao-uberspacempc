@@ -150,8 +150,13 @@ class ModuleUberspaceMPC extends \Module
 
 			if (is_object($objAccount))
 			{
-				if($this->setNewPassword($objAccount->username, $_POST['password']))
+				if ($this->setNewPassword($objAccount->username, $_POST['password']))
 				{
+					if ($this->uberspaceMPCredirect && ($objTarget = $this->objModel->getRelated('jumpTo')) !== null)
+					{
+						$this->redirect($this->generateFrontendUrl($objTarget->row()));
+					}
+
 					$this->Template->type = 'success';
 					$this->Template->message = $GLOBALS['TL_LANG']['UberspaceMPC']['success'];
 					return;
